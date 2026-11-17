@@ -1,0 +1,42 @@
+name: telegram-fritz-wol
+
+services:
+  bot:
+    image: telegram-fritz-wol:local
+    restart: unless-stopped
+    init: true
+
+    environment:
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:?required}
+      TELEGRAM_ALLOWED_USER_IDS: ${TELEGRAM_ALLOWED_USER_IDS:?required}
+      FRITZ_ADDRESS: ${FRITZ_ADDRESS:?required}
+      FRITZ_USERNAME: ${FRITZ_USERNAME:?required}
+      FRITZ_PASSWORD: ${FRITZ_PASSWORD:?required}
+      FRITZ_TIMEOUT_SECONDS: ${FRITZ_TIMEOUT_SECONDS:-5}
+      BOT_LANGUAGE: ${BOT_LANGUAGE:-en}
+      DEVICES_FILE: /app/config/devices.json
+
+    volumes:
+      - type: bind
+        source: /srv/docker/telegram-fritz-wol/secrets/devices.json
+        target: /app/config/devices.json
+        read_only: true
+        bind:
+          create_host_path: false
+
+    read_only: true
+
+    cap_drop:
+      - ALL
+
+    security_opt:
+      - no-new-privileges:true
+
+    pids_limit: 64
+    stop_grace_period: 120s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: "3"

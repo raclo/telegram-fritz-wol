@@ -1,0 +1,14 @@
+{
+  "devices": [
+    {
+      "id": "desktop-pc",
+      "name": "Desktop PC",
+      "mac": "REPLACE_WITH_DESKTOP_PC_MAC"
+    },
+    {
+      "id": "home-server",
+      "name": "Home Server",
+      "mac": "REPLACE_WITH_HOME_SERVER_MAC"
+    }
+  ]
+}

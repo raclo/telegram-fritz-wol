@@ -1,0 +1,32 @@
+name: telegram-fritz-wol
+
+services:
+  bot:
+    build: .
+    restart: unless-stopped
+    init: true
+    env_file:
+      - path: ${BOT_ENV_FILE:-.env}
+        required: true
+        format: raw
+    environment:
+      DEVICES_FILE: /app/config/devices.json
+    volumes:
+      - type: bind
+        source: ./secrets/devices.json
+        target: /app/config/devices.json
+        read_only: true
+        bind:
+          create_host_path: false
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 64
+    stop_grace_period: 120s
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: "3"

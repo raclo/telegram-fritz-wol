@@ -1,0 +1,6 @@
+# Allowlist: local credentials, Git history and test tools never enter the context.
+**
+!Dockerfile
+!requirements.txt
+!telegram_fritz_wol/
+!telegram_fritz_wol/*.py
